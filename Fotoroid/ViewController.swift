@@ -25,11 +25,17 @@ class ViewController: UIViewController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
         
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            alert.addAction(makeAlertAction(actionType: .camera) { _ in self.selectPicture(sourceType: .camera) })
+        alert.addAction(makeAlertAction(actionType: .camera) { [weak self] _ in
+            self?.selectPicture(sourceType: .camera) })
         }
         
-        alert.addAction(makeAlertAction(actionType: .photoLibrary) { _ in self.selectPicture(sourceType: .photoLibrary) })
-        alert.addAction(makeAlertAction(actionType: .savedPhotosAlbum) { _ in self.selectPicture(sourceType: .savedPhotosAlbum) })
+        alert.addAction(makeAlertAction(actionType: .photoLibrary) { [weak self] _ in
+            self?.selectPicture(sourceType: .photoLibrary)
+        })
+        
+        alert.addAction(makeAlertAction(actionType: .savedPhotosAlbum) { [weak self] _ in
+            self?.selectPicture(sourceType: .savedPhotosAlbum) })
+
         alert.addAction(makeAlertAction(actionType: .cancel))
         present(alert, animated: true)
     }
